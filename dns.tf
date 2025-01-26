@@ -2,74 +2,70 @@ data "hetznerdns_zone" "zone1" {
   name = "yodeling-octopus.net"
 }
 
-resource "hetznerdns_record" "a_root" {
-  name     = "@"
-  type     = "A"
-  value    = var.public_ip
-  ttl      = 60
-  zone_id  = data.hetznerdns_zone.zone1.id
+resource "hetznerdns_record" "root" {
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "@"
+  value   = var.public_ip
+  type    = "A"
+  ttl     = 60
 }
 
-resource "hetznerdns_record" "a_www" {
-  name     = "www"
-  type     = "A"
-  value    = var.public_ip
-  ttl      = 60
-  zone_id  = data.hetznerdns_zone.zone1.id
+resource "hetznerdns_record" "www" {
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "www"
+  value   = var.public_ip
+  type    = "A"
+  ttl     = 7200
 }
 
-resource "hetznerdns_record" "a_api" {
-  name     = "api"
-  type     = "A"
-  value    = var.public_ip
-  ttl      = 60
-  zone_id  = data.hetznerdns_zone.zone1.id
+resource "hetznerdns_record" "api" {
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "api"
+  value   = var.public_ip
+  type    = "A"
+  ttl     = 7200
 }
 
-resource "hetznerdns_record" "aaaa_root" {
-  name     = "@"
-  type     = "AAAA"
-  value    = "2a01:4f8:d0a:27bd::2"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
-}
-
-resource "hetznerdns_record" "aaaa_www" {
-  name     = "www"
-  type     = "AAAA"
-  value    = "2a01:4f8:d0a:27bd::2"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
-}
 
 resource "hetznerdns_record" "ns1" {
-  name     = "@"
-  type     = "NS"
-  value    = "ns3.second-ns.de"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "@"
+  value   = "ns1.your-server.de."
+  type    = "NS"
+  ttl     = 7200
 }
 
 resource "hetznerdns_record" "ns2" {
-  name     = "@"
-  type     = "NS"
-  value    = "ns.second-ns.com"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "@"
+  value   = "ns.second-ns.com."
+  type    = "NS"
+  ttl     = 7200
 }
 
 resource "hetznerdns_record" "ns3" {
-  name     = "@"
-  type     = "NS"
-  value    = "ns1.your-server.de"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "@"
+  value   = "ns3.second-ns.de."
+  type    = "NS"
+  ttl     = 7200
 }
 
-resource "hetznerdns_record" "soa" {
-  name     = "@"
-  type     = "SOA"
-  value    = "ns1.your-server.de. postmaster.your-server.de. 2025012203 86400 10800 3600000 3600"
-  ttl      = 7200
-  zone_id  = data.hetznerdns_zone.zone1.id
+
+resource "hetznerdns_record" "aaaa_root" {
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "@"
+  value   = var.public_ip6
+  type    = "AAAA"
+  ttl     = 60
 }
+
+
+resource "hetznerdns_record" "aaaa_www" {
+  zone_id = data.hetznerdns_zone.zone1.id
+  name    = "www"
+  value   = var.public_ip6
+  type    = "AAAA"
+  ttl     = 60
+}
+

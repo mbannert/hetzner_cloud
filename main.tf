@@ -5,19 +5,22 @@ terraform {
       version = "1.46.1"
     }
     hetznerdns = {
-      source = "timohirt/hetznerdns"
-      version = "2.2.0"
+      source  = "germanbrew/hetznerdns"
+      version = "~> 3.0"
     }
   }
 }
+
+provider "hetznerdns" {
+  api_token = var.hetzner_cloud_dns_token
+}
+
 
 provider "hcloud" {
   token = var.hetzner_cloud_api_token
 }
 
-provider "hetznerdns" {
-  apitoken = var.hetzner_cloud_dns_token
-}
+
 
 
 resource "hcloud_firewall" "web_server_and_ssh" {
@@ -69,8 +72,8 @@ resource "hcloud_network_subnet" "corner_se" {
   network_zone = "eu-central"
 }
 
-data "hcloud_ssh_key" "stash" {
-  name = "stash"
+data "hcloud_ssh_key" "stash_key" {
+  name = "stash_key"
 }
 
 resource "hcloud_server" "stage" {
@@ -78,13 +81,13 @@ resource "hcloud_server" "stage" {
   server_type  = "cx22"
   location     = "nbg1"
   image        = "docker-ce"
-  ssh_keys     = [data.hcloud_ssh_key.stash.id]
+  ssh_keys     = [data.hcloud_ssh_key.stash_key.id]
   firewall_ids = [hcloud_firewall.web_server_and_ssh.id]
 
   network {
     network_id = hcloud_network.hood.id
   }
 
-  depends_on = [hcloud_network_subnet.corner_se]
+  depends_on = [hcloud_network.hood, hcloud_network_subnet.corner_se]
 }
 
