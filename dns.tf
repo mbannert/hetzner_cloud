@@ -10,12 +10,13 @@ resource "hetznerdns_record" "root" {
   ttl     = 60
 }
 
+
 resource "hetznerdns_record" "www" {
   zone_id = data.hetznerdns_zone.zone1.id
   name    = "www"
   value   = var.public_ip
   type    = "A"
-  ttl     = 7200
+  ttl     = 60
 }
 
 resource "hetznerdns_record" "api" {
@@ -23,7 +24,7 @@ resource "hetznerdns_record" "api" {
   name    = "api"
   value   = var.public_ip
   type    = "A"
-  ttl     = 7200
+  ttl     = 60
 }
 
 
@@ -32,7 +33,7 @@ resource "hetznerdns_record" "ns1" {
   name    = "@"
   value   = "ns1.your-server.de."
   type    = "NS"
-  ttl     = 7200
+  ttl     = 60
 }
 
 resource "hetznerdns_record" "ns2" {
@@ -40,7 +41,7 @@ resource "hetznerdns_record" "ns2" {
   name    = "@"
   value   = "ns.second-ns.com."
   type    = "NS"
-  ttl     = 7200
+  ttl     = 60
 }
 
 resource "hetznerdns_record" "ns3" {
@@ -48,7 +49,7 @@ resource "hetznerdns_record" "ns3" {
   name    = "@"
   value   = "ns3.second-ns.de."
   type    = "NS"
-  ttl     = 7200
+  ttl     = 60
 }
 
 

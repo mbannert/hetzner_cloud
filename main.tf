@@ -77,6 +77,7 @@ data "hcloud_ssh_key" "stash_key" {
 }
 
 resource "hcloud_server" "stage" {
+  depends_on = [hcloud_network.hood, hcloud_network_subnet.corner_se]
   name         = "stage"
   server_type  = "cx22"
   location     = "nbg1"
@@ -88,6 +89,9 @@ resource "hcloud_server" "stage" {
     network_id = hcloud_network.hood.id
   }
 
-  depends_on = [hcloud_network.hood, hcloud_network_subnet.corner_se]
+  lifecycle {
+    prevent_destroy = true
+  }
+  
 }
 
